@@ -9,3 +9,15 @@
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-text-size-adjust: 100%;
 }
+
+@layer components {
+	.custom-scroll::-webkit-scrollbar {
+		@apply w-2;
+	}
+	.custom-scroll::-webkit-scrollbar-thumb {
+		@apply bg-dark-black rounded-md;
+	}
+	.custom-scroll::-webkit-scrollbar-track {
+		@apply bg-[rgba(0,0,0,0)];
+	}
+}
