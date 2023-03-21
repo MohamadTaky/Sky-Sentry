@@ -9,9 +9,9 @@ export default function CitiesList() {
 	const { data, isLoading } = useCitiesList(locationName);
 	useAutoCityDetection();
 	return (
-		<div className="h-full relative">
+		<div className="relative">
 			<input
-				className="text-black h-full focus:outline-none border-b-2 px-2 w-96"
+				className="text-black h-full focus:outline-none px-2 w-96 rounded-t-md"
 				value={locationName}
 				placeholder="Search for a city"
 				onChange={event => setLocationName(event.target.value)}
