@@ -16,14 +16,21 @@
 	-webkit-text-size-adjust: 100%;
 }
 
+body {
+	font-family: "Roboto", sans-serif;
+}
+
 @layer components {
+	.overflow-overlay {
+		overflow: overlay;
+	}
 	.custom-scroll::-webkit-scrollbar {
 		@apply w-2;
 	}
 	.custom-scroll::-webkit-scrollbar-thumb {
-		@apply bg-dark-black rounded-md;
+		@apply bg-accent-3 rounded-md;
 	}
 	.custom-scroll::-webkit-scrollbar-track {
-		@apply bg-[rgba(0,0,0,0)];
+		@apply bg-transparent;
 	}
 }

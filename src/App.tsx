@@ -1,14 +1,18 @@
-import Navbar from "features/navigation/components/navbar.component";
+import Navbar from "features/navigation/components/navbar/navbar.component";
+import Landing from "features/landing/components/landing.component";
 import WeatherForecastList from "./features/weatherForecast/components/weatherForecastList.component";
-import Overlay from "features/overlay/components/overlay.component";
+import WeatherForecastDetails from "features/weatherForecastDetails/components/weatherForecastDetails.component";
 
 function App() {
 	return (
-		<main className="h-screen w-screen p-4 flex flex-col gap-4 justify-end">
-			<Overlay />
+		<div className="text-white-1 bg-black-3">
 			<Navbar />
-			<WeatherForecastList />
-		</main>
+			<div className="h-[calc(100vh-32px)] overflow-overlay custom-scroll">
+				<Landing />
+				<WeatherForecastList />
+				<WeatherForecastDetails />
+			</div>
+		</div>
 	);
 }
 

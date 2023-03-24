@@ -1,8 +1,8 @@
 import { useQuery, QueryFunctionContext } from "react-query";
 import axios, { AxiosResponse } from "axios";
 
-export default function useCitiesList(locationName: string) {
-	return useQuery(["manualCity", locationName], fetchLocation, { select });
+export default function useSearchCityQuery(keyword: string) {
+	return useQuery(["city", keyword], fetchLocation, { select, enabled: !!keyword });
 }
 
 async function fetchLocation({ queryKey }: QueryFunctionContext) {

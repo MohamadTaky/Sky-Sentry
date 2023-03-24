@@ -47,4 +47,14 @@ export interface IWeatherForecastItemProps {
 	date: number;
 	temperature: number;
 	type: WeatherType;
+	sunset: string;
+	sunrise: string;
+	windSpeed: number;
+	currentWeather: {
+		time: string;
+		temperature: number;
+		weatherCode: number;
+		windSpeed: number;
+		windDirection: number;
+	};
 }

@@ -1,8 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { QueryFunctionContext, useQuery } from "react-query";
 
-export default function useCountryFlag(countryCode: string) {
-	return useQuery(["countryFlag", countryCode], fetchFlag, { select });
+export default function useCountryFlagQuery(countryCode: string) {
+	return useQuery(["countryFlag", countryCode], fetchFlag, {
+		select,
+	});
 }
 
 function fetchFlag({ queryKey }: QueryFunctionContext) {

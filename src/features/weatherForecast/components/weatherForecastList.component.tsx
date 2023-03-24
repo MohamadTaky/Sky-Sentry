@@ -1,15 +1,16 @@
 import WeatherForecastItem from "./weatherForecastItem.component";
 import { CircleNotch } from "@phosphor-icons/react";
-import useWeeklyForecast from "../hooks/useWeeklyForecast.hook";
+import useWeatherForecastQuery from "../hooks/useWeatherForecastQuery.hook";
 
 export default function WeatherForecastList() {
-	const { data, isLoading } = useWeeklyForecast();
+	const { data, isLoading } = useWeatherForecastQuery();
+
 	return (
-		<ul className="h-60 max-w-full flex gap-4 justify-center items-center">
+		<ul className="max-w-full h-1/3 flex bg-dark-black sticky">
 			{isLoading ? (
 				<CircleNotch weight="bold" size={70} className="text-light-black animate-spin" />
 			) : (
-				data?.map((el, i) => <WeatherForecastItem key={i} {...el} />)
+				data?.daily.map((el, i) => <WeatherForecastItem key={i} {...el} />)
 			)}
 		</ul>
 	);
