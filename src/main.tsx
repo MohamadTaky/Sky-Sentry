@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 		<QueryClientProvider client={client}>
 			<BrowserRouter>
 				<App />
-				<ReactQueryDevtools />
+				<ReactQueryDevtools position="bottom-right"/>
 			</BrowserRouter>
 		</QueryClientProvider>
 	</React.StrictMode>

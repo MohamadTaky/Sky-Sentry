@@ -16,6 +16,8 @@ module.exports = {
 			"success-1": "#56f7c2",
 			"success-2": "#41f6ba",
 			"success-3": "#2cf6b3",
+			"orange-1": "#f48037",
+			"midnight-1": "#191970",
 			transparent: "#00000000",
 		},
 	},

@@ -33,7 +33,10 @@ function select(data: AxiosResponse<any, any>) {
 		.map((_day, i) =>
 			Array(24)
 				.fill({})
-				.map((_hour, j) => ({ time: hourlyData.time[i * 24 + j] }))
+				.map((_hour, j) => ({
+					time: hourlyData.time[i * 24 + j],
+					temperature: hourlyData.apparent_temperature[i * 24 + j],
+				}))
 		);
 
 	return {
@@ -70,7 +73,7 @@ function fetchWeatherForecast({ queryKey }: QueryFunctionContext) {
 		&latitude=${response.data.lat}
 		&current_weather=true
 		&daily=sunrise,sunset,weathercode,temperature_2m_max,winddirection_10m_dominant,windspeed_10m_max
-		&hourly=temperature_2m,relativehumidity_2m,precipitation,weathercode,cloudcover,visibility,windspeed_10m,winddirection_10m
+		&hourly=apparent_temperature
 		&timezone=auto`,
 			{ transformResponse: response => ({ ...JSON.parse(response), city }) }
 		)

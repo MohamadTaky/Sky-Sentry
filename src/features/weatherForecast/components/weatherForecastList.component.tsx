@@ -10,7 +10,7 @@ export default function WeatherForecastList() {
 			{isLoading ? (
 				<CircleNotch weight="bold" size={70} className="text-light-black animate-spin" />
 			) : (
-				data?.daily.map((el, i) => <WeatherForecastItem key={i} {...el} />)
+				data?.daily.map((el, i) => <WeatherForecastItem key={i} index={i} {...el} />)
 			)}
 		</ul>
 	);

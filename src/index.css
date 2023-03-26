@@ -25,7 +25,7 @@ body {
 		overflow: overlay;
 	}
 	.custom-scroll::-webkit-scrollbar {
-		@apply w-2;
+		@apply w-2 h-2;
 	}
 	.custom-scroll::-webkit-scrollbar-thumb {
 		@apply bg-accent-3 rounded-md;

@@ -43,6 +43,7 @@ export const weatherCodes: Record<number, WeatherType> = {
 };
 
 export interface IWeatherForecastItemProps {
+	index: number;
 	day: WeekDay;
 	date: number;
 	temperature: number;

@@ -14,6 +14,9 @@ export default function useSyncCitiesStorage() {
 		if (city) addCityStorage(city);
 	}, [location.search]);
 	useEffect(() => {
-		if (activeCityStorage) setSearchParams({ city: activeCityStorage });
+		if (activeCityStorage)
+			setSearchParams(prev =>
+				prev.get("day") ? { day: prev.get("day"), city: activeCityStorage } : { city: activeCityStorage }
+			);
 	}, []);
 }

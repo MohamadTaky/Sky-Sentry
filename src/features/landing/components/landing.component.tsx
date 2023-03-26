@@ -31,7 +31,7 @@ export default function Landing() {
 					<h1 className="text-6xl font-bold mb-6 text-accent-3">{data?.city}</h1>
 					<div className="flex items-end mb-4">
 						<Clock size="40" />
-						<p className="ml-2 mr-1">{moment().format("h:m")}</p>
+						<p className="ml-2 mr-1">{moment().format("h:mm")}</p>
 						<span className="text-sm text-white-2">{moment().format("A")}</span>
 					</div>
 					<div className="flex items-end mb-4">
