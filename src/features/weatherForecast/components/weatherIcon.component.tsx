@@ -1,31 +1,42 @@
-import { ReactComponent as ClearDay } from "assets/weahter icons/clear-day.svg";
-import { ReactComponent as Shower } from "assets/weahter icons/rainy-shower.svg";
-import { ReactComponent as Rain } from "assets/weahter icons/rainy.svg";
-import { ReactComponent as Snow } from "assets/weahter icons/snowy.svg";
-import { ReactComponent as PartlyCloudyDay } from "assets/weahter icons/partly-cloudy-day.svg";
-import { ReactComponent as Cloud } from "assets/weahter icons/cloudy.svg";
-import { ReactComponent as Fog } from "assets/weahter icons/foggy.svg";
-import { ReactComponent as Storm } from "assets/weahter icons/stormy.svg";
+import {
+	Sun,
+	Drop,
+	CloudRain,
+	Snowflake,
+	CloudSnow,
+	Cloud,
+	CloudLightning,
+	CloudFog,
+} from "@phosphor-icons/react";
 
-import { WeatherType } from "../types";
-import React from "react";
-
-const sharedIconProps: React.SVGProps<SVGSVGElement> = {
-	className: "w-full h-full drop-shadow-[0_0px_20px_rgba(255,255,255,0.35)]",
+const size = 45;
+const weatherIcons = {
+	clear: <Sun size={size} weight="fill" className="text-orange-1" />,
+	lightRain: <Drop size={size} weight="fill" className="text-[#0096FF]" />,
+	rainy: (
+		<div className="relative isolate">
+			<CloudRain size={size} weight="fill" className="text-[#0096FF] absolute -z-10 top-2.5" />
+			<Cloud size={size} weight="fill" className="relative left-0.5" />
+		</div>
+	),
+	lightSnow: <Snowflake size={size} className="text-[#fffafa]" />,
+	snowy: <CloudSnow size={size} weight="fill" className="text-[#fffafa]" />,
+	partlyCloudy: (
+		<div className="relative isolate">
+			<Sun size="30" weight="fill" className="absolute -z-10 text-orange-1 " />
+			<Cloud size={size} weight="fill" />
+		</div>
+	),
+	cloudy: <Cloud size={size} weight="fill" />,
+	foggy: <CloudFog size={size} weight="fill" className="text-white" />,
+	thunderStorm: (
+		<div className="relative isolate">
+			<CloudLightning size={size} weight="fill" className="text-[#FDD023] absolute -z-10 top-2.5" />
+			<Cloud size={size} weight="fill" className="relative left-0.5" />
+		</div>
+	),
 };
 
-const weatherIcons: Record<WeatherType, JSX.Element> = {
-	clear: <ClearDay {...sharedIconProps} />,
-	lightRain: <Shower {...sharedIconProps} />,
-	rainy: <Rain {...sharedIconProps} />,
-	lightSnow: <Snow {...sharedIconProps} />,
-	snowy: <Snow {...sharedIconProps} />,
-	partlyCloudy: <PartlyCloudyDay {...sharedIconProps} />,
-	cloudy: <Cloud {...sharedIconProps} />,
-	foggy: <Fog {...sharedIconProps} />,
-	thunderStorm: <Storm {...sharedIconProps} />,
-};
-
-export default function WeatherIcon({ type }: { type: WeatherType }) {
-	return weatherIcons[type];
+export default function WeatherIcon({ type }: { type: string }) {
+	return weatherIcons[type as keyof typeof weatherIcons];
 }

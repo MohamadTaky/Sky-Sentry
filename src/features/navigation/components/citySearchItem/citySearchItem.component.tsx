@@ -1,28 +1,44 @@
-import { Link } from "react-router-dom";
-import useCountryFlagQuery from "./useCountryFlagQuery";
+import { useDeleteCityStorage } from "libraries/zustand/store";
+import SearchParamLink from "components/searchParamLink";
+import { useAddCityStorage } from "libraries/zustand/store";
+import { X } from "@phosphor-icons/react";
 
 interface IProps {
 	city: string;
-	countryCode: string;
-	resetInput: () => void;
+	flag: string;
+	country: string;
 }
 
-export function CitySearchItem({ city, countryCode, resetInput }: IProps) {
-	const { data, isLoading } = useCountryFlagQuery(countryCode);
-	const searchParams = new URLSearchParams({ city });
-
-	if (isLoading) return <></>;
+export default function CitySearchItem({ city, flag, country }: IProps) {
+	const addCityStorage = useAddCityStorage();
 	return (
 		<li>
-			<Link
-				onClick={resetInput}
-				to={`?${searchParams}`}
-				className="group cursor-pointer transition-colors hover:bg-black-1 p-2 flex items-center gap-2 w-full">
+			<SearchParamLink
+				onClick={() => addCityStorage(city)}
+				param={[`city=${city}`, "searching"]}
+				className="cursor-pointer transition-colors hover:bg-black-1 p-2 flex items-center gap-2 w-full h-16">
 				<div className="text-sm w-[15ch]">{city}</div>
-				<div className="text-xs max-w-[35ch] text-white-3 flex-1">{data?.countryName}</div>
-				<img className="object-cover w-6 h-6 rounded ml-auto" src={data?.flag} alt="" />
-			</Link>
+				<div className="text-xs max-w-[35ch] text-white-3 flex-1">{country}</div>
+				<img className="object-cover w-6 h-6 rounded ml-auto" src={flag} alt="" />
+				{}
+			</SearchParamLink>
 		</li>
 	);
 }
 
+export function DeletableCitySearchItem({ city }: { city: string }) {
+	const deleteCityStorage = useDeleteCityStorage();
+	console.log(city);
+	return (
+		<li className="group hover:bg-black-1 flex items-center justify-between gap-2">
+			<SearchParamLink
+				param={[`city=${city}`, "searching"]}
+				className="flex items-center cursor-pointer transition-colors p-2 w-full h-16">
+				<div className="text-sm w-[15ch]">{city}</div>
+			</SearchParamLink>
+			<button className="p-2" onClick={() => deleteCityStorage(city)}>
+				<X size="25" />
+			</button>
+		</li>
+	);
+}

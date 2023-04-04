@@ -1,46 +1,52 @@
-import { CitySearchItem } from "../citySearchItem/citySearchItem.component";
 import { useState } from "react";
 import useSearchCityQuery from "./useSearchCityQuery.hook";
-import { ICityProps } from "../../types";
-import useSyncCitiesStorage from "./useSyncCititesStorage";
-import { MagnifyingGlass } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
+import CitySearchItem, { DeletableCitySearchItem } from "../citySearchItem/citySearchItem.component";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCitiesStorage } from "libraries/zustand/store";
+import SearchParamLink from "components/searchParamLink";
 
 export default function CitiesSearchList() {
 	const [searchInput, setSearchInput] = useState("");
-	const { data, isLoading } = useSearchCityQuery(searchInput);
-	useSyncCitiesStorage();
+	const { data, isPreviousData, isFetching } = useSearchCityQuery(searchInput);
+	const citiesStorage = useCitiesStorage();
 
 	return (
-		<div className="relative w-1/3">
-			<div className="absolute inset-y-0 pl-2 flex items-center text-light-gray">
-				<MagnifyingGlass size="20" weight="bold" />
+		<motion.div
+			initial={{ translateY: "-100%" }}
+			animate={{ translateY: 0 }}
+			exit={{ translateY: "-100%" }}
+			transition={{ duration: 0.16, type: "tween", ease: "easeOut" }}
+			className="fixed z-50 inset-0 w-screen h-screen overflow-y-auto origin-top-right bg-black-2">
+			<div className="bg-black-2 sticky top-0 z-10 flex items-center border-b-2 border-black-1 p-2">
+				<input
+					className="w-full bg-transparent outline-none focus:outline-none"
+					value={searchInput}
+					placeholder="Search for a city"
+					onChange={event => setSearchInput(event.target.value)}
+				/>
+				<SearchParamLink param="searching" onClick={() => setSearchInput("")}>
+					<X size="30" weight="bold" />
+				</SearchParamLink>
 			</div>
-			<input
-				className="text-base w-full bg-transparent py-1 pl-8 outline-none focus:outline-none"
-				value={searchInput}
-				placeholder="Search for a city"
-				onChange={event => setSearchInput(event.target.value)}
-			/>
-			{searchInput && (
-				<ul className="absolute w-full  z-50 bg-black-2 custom-scroll text-black max-h-52 overflow-y-auto rounded-b-md">
-					{!isLoading ? (
-						data ? (
-							data?.map((item: ICityProps) => (
-								<CitySearchItem
-									key={item.id}
-									city={item.name}
-									countryCode={item.country_code}
-									resetInput={() => setSearchInput("")}
-								/>
+
+			<motion.ul className="relative w-11/12 h-fit mx-auto" animate={{ opacity: isPreviousData ? 0.5 : 1 }}>
+				<AnimatePresence>
+					{searchInput.length > 2 ? (
+						data?.length ? (
+							data.map(item => (
+								<CitySearchItem key={item.id} city={item.name} flag={item.flag} country={item.country} />
 							))
+						) : isFetching ? (
+							<li className="p-4 text-center">Loading</li>
 						) : (
-							<div className="p-2 text-center">List is empty</div>
+							<li className="p-4 text-center">No results found</li>
 						)
 					) : (
-						<div className="p-2 text-center">Loading</div>
+						citiesStorage.map(city => <DeletableCitySearchItem key={city} city={city} />)
 					)}
-				</ul>
-			)}
-		</div>
+				</AnimatePresence>
+			</motion.ul>
+		</motion.div>
 	);
 }
