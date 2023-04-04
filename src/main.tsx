@@ -6,8 +6,11 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "./index.css";
 import LoadingOverlay from "features/loader/loadingOverlay.component";
+import { disableReactDevTools } from "disableReactDevtools";
 
 const client = new QueryClient();
+
+if (import.meta.env.PROD === true) disableReactDevTools();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
