@@ -28,7 +28,6 @@ export default function CitySearchItem({ city, flag, country }: IProps) {
 
 export function DeletableCitySearchItem({ city }: { city: string }) {
 	const deleteCityStorage = useDeleteCityStorage();
-	console.log(city);
 	return (
 		<li className="group hover:bg-black-1 flex items-center justify-between gap-2">
 			<SearchParamLink

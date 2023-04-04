@@ -63,11 +63,12 @@ function select(data: AxiosResponse) {
 }
 
 function fetchLocation(city: string | undefined) {
-	const request = city ? `https://geocoding-api.open-meteo.com/v1/search?name=${city}` : "/location";
+	const request = city
+		? `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
+		: "http://ip-api.com/json/?fields=city,lat,lon,timezone";
 	return axios.get(request, {
 		transformResponse: response => {
 			const jsonResponse = JSON.parse(response);
-			console.log(jsonResponse);
 			if (jsonResponse.results)
 				return {
 					city: jsonResponse.results[0].name,
@@ -82,7 +83,6 @@ function fetchLocation(city: string | undefined) {
 
 function fetchWeatherForecast({ queryKey }: QueryFunctionContext) {
 	const city = queryKey[1] as string;
-	console.log(city);
 	return fetchLocation(city).then(locationResponse => {
 		return axios.get(
 			`https://api.open-meteo.com/v1/forecast?longitude=${locationResponse.data.lon}
