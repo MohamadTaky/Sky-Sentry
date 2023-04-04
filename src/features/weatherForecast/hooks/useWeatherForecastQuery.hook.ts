@@ -62,10 +62,10 @@ function select(data: AxiosResponse) {
 	};
 }
 
+//http://ip-api.com/json/?fields=city,lat,lon,timezone
+
 function fetchLocation(city: string | undefined) {
-	const request = city
-		? `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
-		: "http://ip-api.com/json/?fields=city,lat,lon,timezone";
+	const request = city ? `https://geocoding-api.open-meteo.com/v1/search?name=${city}` : "/api/ip-api";
 	return axios.get(request, {
 		transformResponse: response => {
 			const jsonResponse = JSON.parse(response);
