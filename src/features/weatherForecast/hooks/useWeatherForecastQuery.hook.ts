@@ -72,11 +72,11 @@ function fetchLocation(city: string | undefined) {
 			if (jsonResponse.results)
 				return {
 					city: jsonResponse.results[0].name,
-					lon: jsonResponse.results[0].longitude,
-					lat: jsonResponse.results[0].latitude,
+					longitude: jsonResponse.results[0].longitude,
+					latitude: jsonResponse.results[0].latitude,
 					timezone: jsonResponse.results[0].timezone ?? "auto",
 				};
-			return jsonResponse;
+			return { ...jsonResponse, timezone: jsonResponse.time_zone.name };
 		},
 	});
 }
@@ -85,8 +85,8 @@ function fetchWeatherForecast({ queryKey }: QueryFunctionContext) {
 	const city = queryKey[1] as string;
 	return fetchLocation(city).then(locationResponse => {
 		return axios.get(
-			`https://api.open-meteo.com/v1/forecast?longitude=${locationResponse.data.lon}
-			&latitude=${locationResponse.data.lat}
+			`https://api.open-meteo.com/v1/forecast?longitude=${locationResponse.data.longitude}
+			&latitude=${locationResponse.data.latitude}
 			&current_weather=true
 			&daily=sunrise,sunset,weathercode,temperature_2m_max,temperature_2m_min,winddirection_10m_dominant,windspeed_10m_max,precipitation_probability_max
 			&hourly=apparent_temperature,cloudcover,windspeed_10m,relativehumidity_2m&timezone=${locationResponse.data.timezone}`,
