@@ -1,7 +1,8 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-	const url = "http://ip-api.com/json/?fields=city,lat,lon,timezone";
+	const userIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+	const url = `https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.LOCATION_KEY}&ip=${userIp}`;
 	const response = await fetch(url);
 	const data = await response.json();
 	res.setHeader("Content-Type", "application/json");
