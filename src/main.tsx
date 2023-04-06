@@ -7,6 +7,9 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import "./index.css";
 import LoadingOverlay from "features/loader/loadingOverlay.component";
 import { disableReactDevTools } from "disableReactDevtools";
+import { ErrorBoundary } from "react-error-boundary";
+import { QueryErrorResetBoundary } from "react-query";
+import ErrorFallback from "components/errorFallback";
 
 const client = new QueryClient();
 
@@ -16,9 +19,19 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<QueryClientProvider client={client}>
 			<BrowserRouter>
-				<LoadingOverlay>
-					<App />
-				</LoadingOverlay>
+				<QueryErrorResetBoundary>
+					{({ reset }) => (
+						<ErrorBoundary
+							onReset={reset}
+							fallbackRender={({ resetErrorBoundary }) => (
+								<ErrorFallback resetErrorBoundary={resetErrorBoundary} />
+							)}>
+							<LoadingOverlay>
+								<App />
+							</LoadingOverlay>
+						</ErrorBoundary>
+					)}
+				</QueryErrorResetBoundary>
 				<ReactQueryDevtools position="bottom-right" />
 			</BrowserRouter>
 		</QueryClientProvider>

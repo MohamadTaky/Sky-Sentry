@@ -13,6 +13,7 @@ export default function useWeatherForecastQuery() {
 		keepPreviousData: true,
 		staleTime: 1000 * 60 * 30,
 		suspense: true,
+		useErrorBoundary: true,
 	});
 }
 

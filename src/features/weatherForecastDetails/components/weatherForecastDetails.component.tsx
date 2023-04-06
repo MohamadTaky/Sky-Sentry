@@ -18,7 +18,7 @@ export default function WeatherForecastDetails() {
 	return (
 		<section className="bg-black-1 h-screen p-4 relative">
 			<div className="relative h-full w-11/12 mx-auto flex flex-col gap-2">
-				<nav className="flex justify-between gap-2 mb-4">
+				<nav className="flex justify-between gap-2">
 					{data?.daily.map((day, i) => (
 						<motion.div
 							key={`day${i}`}
@@ -62,7 +62,7 @@ export default function WeatherForecastDetails() {
 						<SearchParamLink param="chart=humidity">humidity</SearchParamLink>
 					</motion.div>
 				</nav>
-				<figure className="overflow-hidden h-full overflow-x-auto custom-scroll" ref={ref}>
+				<figure className="grow relative" ref={ref}>
 					<LineChart
 						width={bounds.width > 768 ? bounds.width : 800}
 						height={bounds.height}
