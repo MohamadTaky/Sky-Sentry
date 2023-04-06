@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import { scaleLinear, extent, line, curveMonotoneX } from "d3";
 import { getTime, format } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { AnimatePresence, motion } from "framer-motion";
@@ -23,24 +23,21 @@ export default function LineChart({ width, height, data, timezone }: ILineChartP
 		top: 10,
 		bottom: 35,
 	};
-	const xExtent = d3.extent(data.hourly.map(hour => hour.time));
-	const yExtent = d3.extent(data.hourly.map(hour => hour.value));
+	const xExtent = extent(data.hourly.map(hour => hour.time));
+	const yExtent = extent(data.hourly.map(hour => hour.value));
 	const time = utcToZonedTime(new Date().toISOString(), timezone);
-	const xScale = d3
-		.scaleLinear()
+	const xScale = scaleLinear()
 		.domain(xExtent as Iterable<number>)
 		.range([margins.left, width - margins.right]);
-	const yScale = d3
-		.scaleLinear()
+	const yScale = scaleLinear()
 		.domain(yExtent as Iterable<number>)
 		.range([height - margins.bottom, margins.top])
 		.nice();
-	const line = d3
-		.line()
+	const l = line()
 		.x(data => xScale(data[0]))
 		.y(data => yScale(data[1]))
-		.curve(d3.curveMonotoneX);
-	const d = line(data.hourly.map(hour => [hour.time as unknown as number, hour.value])) ?? "";
+		.curve(curveMonotoneX);
+	const d = l(data.hourly.map(hour => [hour.time as unknown as number, hour.value])) ?? "";
 	const chartHeight = height === 0 ? 0 : height - margins.bottom - margins.top;
 	return (
 		<svg width={width} height={height} className="relative text-[10px] text-white-3">
